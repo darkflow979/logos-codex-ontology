@@ -1,0 +1,255 @@
+{
+  "nodes": [
+    {
+      "id": 0,
+      "label": "Theology",
+      "group": "domain"
+    },
+    {
+      "id": 1,
+      "label": "Christology",
+      "group": "subcategory"
+    },
+    {
+      "id": 2,
+      "label": "Doctrine of Scripture",
+      "group": "subcategory"
+    },
+    {
+      "id": 3,
+      "label": "Soteriology",
+      "group": "subcategory"
+    },
+    {
+      "id": 4,
+      "label": "Trinitarian Theology",
+      "group": "subcategory"
+    },
+    {
+      "id": 5,
+      "label": "Theological Epistemology",
+      "group": "subcategory"
+    },
+    {
+      "id": 6,
+      "label": "Philosophy",
+      "group": "domain"
+    },
+    {
+      "id": 7,
+      "label": "Epistemology",
+      "group": "subcategory"
+    },
+    {
+      "id": 8,
+      "label": "Metaphysics",
+      "group": "subcategory"
+    },
+    {
+      "id": 9,
+      "label": "Ethics & Moral Philosophy",
+      "group": "subcategory"
+    },
+    {
+      "id": 10,
+      "label": "Logic & Language Philosophy",
+      "group": "subcategory"
+    },
+    {
+      "id": 11,
+      "label": "Science & Computation",
+      "group": "domain"
+    },
+    {
+      "id": 12,
+      "label": "Information Theory",
+      "group": "subcategory"
+    },
+    {
+      "id": 13,
+      "label": "Physics & Cosmology",
+      "group": "subcategory"
+    },
+    {
+      "id": 14,
+      "label": "Cybernetics & Systems Theory",
+      "group": "subcategory"
+    },
+    {
+      "id": 15,
+      "label": "Computation & Complexity",
+      "group": "subcategory"
+    },
+    {
+      "id": 16,
+      "label": "Aesthetics",
+      "group": "domain"
+    },
+    {
+      "id": 17,
+      "label": "Music Theology",
+      "group": "subcategory"
+    },
+    {
+      "id": 18,
+      "label": "Literature & Theological Imagination",
+      "group": "subcategory"
+    },
+    {
+      "id": 19,
+      "label": "Ritual & Form",
+      "group": "subcategory"
+    },
+    {
+      "id": 20,
+      "label": "Iconic Theology in Art",
+      "group": "subcategory"
+    },
+    {
+      "id": 21,
+      "label": "Personal Integration",
+      "group": "domain"
+    },
+    {
+      "id": 22,
+      "label": "Reflections & Meditations",
+      "group": "subcategory"
+    },
+    {
+      "id": 23,
+      "label": "Prayer Studies",
+      "group": "subcategory"
+    },
+    {
+      "id": 24,
+      "label": "Essays in Progress",
+      "group": "subcategory"
+    },
+    {
+      "id": 25,
+      "label": "Life Vision & Application",
+      "group": "subcategory"
+    },
+    {
+      "id": 26,
+      "label": "The Logos as Information",
+      "group": "concept"
+    },
+    {
+      "id": 27,
+      "label": "Information Theory",
+      "group": "concept"
+    },
+    {
+      "id": 28,
+      "label": "Christology",
+      "group": "concept"
+    }
+  ],
+  "edges": [
+    {
+      "from": 0,
+      "to": 1
+    },
+    {
+      "from": 0,
+      "to": 2
+    },
+    {
+      "from": 0,
+      "to": 3
+    },
+    {
+      "from": 0,
+      "to": 4
+    },
+    {
+      "from": 0,
+      "to": 5
+    },
+    {
+      "from": 6,
+      "to": 7
+    },
+    {
+      "from": 6,
+      "to": 8
+    },
+    {
+      "from": 6,
+      "to": 9
+    },
+    {
+      "from": 6,
+      "to": 10
+    },
+    {
+      "from": 11,
+      "to": 12
+    },
+    {
+      "from": 11,
+      "to": 13
+    },
+    {
+      "from": 11,
+      "to": 14
+    },
+    {
+      "from": 11,
+      "to": 15
+    },
+    {
+      "from": 16,
+      "to": 17
+    },
+    {
+      "from": 16,
+      "to": 18
+    },
+    {
+      "from": 16,
+      "to": 19
+    },
+    {
+      "from": 16,
+      "to": 20
+    },
+    {
+      "from": 21,
+      "to": 22
+    },
+    {
+      "from": 21,
+      "to": 23
+    },
+    {
+      "from": 21,
+      "to": 24
+    },
+    {
+      "from": 21,
+      "to": 25
+    },
+    {
+      "from": 1,
+      "to": 26
+    },
+    {
+      "from": 5,
+      "to": 26
+    },
+    {
+      "from": 12,
+      "to": 26
+    },
+    {
+      "from": 27,
+      "to": 27
+    },
+    {
+      "from": 28,
+      "to": 28
+    }
+  ]
+}

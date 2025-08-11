@@ -1,0 +1,126 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Logos Codex — Interactive Ontology</title>
+  <style>
+    html, body { height: 100%; margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; }
+    header { padding: 14px 18px; border-bottom: 1px solid #eee; }
+    h1 { font-size: 18px; margin: 0 0 6px; }
+    .wrap { height: calc(100% - 66px); display: grid; grid-template-columns: 260px 1fr; }
+    .sidebar { border-right: 1px solid #eee; padding: 12px; overflow: auto; }
+    .content { position: relative; }
+    #network { width: 100%; height: 100%; }
+    .legend { font-size: 13px; line-height: 1.4; }
+    .legend .item { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+    .chip { width: 12px; height: 12px; border-radius: 3px; display: inline-block; }
+    .chip.domain { background: #cfe8ff; }
+    .chip.subcategory { background: #ddd; }
+    .chip.concept { background: #ffd166; }
+    .hint { color: #666; font-size: 12px; margin-top: 8px; }
+    .footer { padding: 8px 18px; border-top: 1px solid #eee; font-size: 12px; color: #666; }
+    a { color: #0b62d6; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+  </style>
+  <!-- vis-network from CDN -->
+  <script type="text/javascript" src="https://unpkg.com/vis-network@9.1.9/dist/vis-network.min.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/vis-network@9.1.9/styles/vis-network.css"/>
+</head>
+<body>
+  <header>
+    <h1>Logos Codex — Interactive Ontology</h1>
+    <div class="hint">Drag to pan • Scroll to zoom • Click nodes to highlight neighbors</div>
+  </header>
+  <div class="wrap">
+    <aside class="sidebar">
+      <div class="legend">
+        <div class="item"><span class="chip domain"></span> <strong>Domain</strong></div>
+        <div class="item"><span class="chip subcategory"></span> <strong>Subcategory</strong></div>
+        <div class="item"><span class="chip concept"></span> <strong>Concept</strong></div>
+      </div>
+      <div class="hint">Tip: Host this folder with GitHub Pages, then embed the URL in Notion using <code>/embed</code>.</div>
+      <p class="hint">Data is loaded from <code>data.json</code>. Replace it as your ontology grows.</p>
+    </aside>
+    <main class="content">
+      <div id="network"></div>
+    </main>
+  </div>
+  <div class="footer">
+    Built for James's Logos Codex.
+  </div>
+  <script>
+    // Utility to set colors by group
+    const groupStyles = {
+      "domain": { shape: "box", color: { background: "#cfe8ff", border: "#7bb3e6" }, font: { size: 16, bold: true }},
+      "subcategory": { shape: "ellipse", color: { background: "#dddddd", border: "#b7b7b7" }, font: { size: 14 }},
+      "concept": { shape: "note", color: { background: "#ffd166", border: "#e6b54c" }, font: { size: 14 }}
+    };
+
+    function styleNodes(rawNodes) {
+      return rawNodes.map(n => {
+        const style = groupStyles[n.group] || {};
+        return Object.assign({ physics: true }, n, style);
+      });
+    }
+
+    function styleEdges(rawEdges) {
+      return rawEdges.map(e => ({
+        ...e,
+        arrows: "to",
+        color: { opacity: 0.5 },
+        smooth: { type: "dynamic" }
+      }));
+    }
+
+    async function loadData() {
+      const res = await fetch('data.json', { cache: 'no-store' });
+      if (!res.ok) throw new Error('Failed to load data.json');
+      return res.json();
+    }
+
+    function neighbors(network, nodeId) {
+      const connected = network.getConnectedNodes(nodeId);
+      return new Set([nodeId, ...connected]);
+    }
+
+    loadData().then(data => {
+      const container = document.getElementById('network');
+      const nodes = new vis.DataSet(styleNodes(data.nodes));
+      const edges = new vis.DataSet(styleEdges(data.edges));
+      const network = new vis.Network(container, { nodes, edges }, {
+        interaction: { hover: true },
+        physics: {
+          solver: "forceAtlas2Based",
+          stabilization: { iterations: 250 }
+        },
+        edges: { width: 1 }
+      });
+
+      // Highlight neighbors on click
+      network.on("click", params => {
+        if (params.nodes.length === 0) {
+          nodes.forEach(n => nodes.update({ id: n.id, opacity: 1 }));
+          edges.forEach(e => edges.update({ id: e.id, color: { opacity: 0.5 } }));
+          return;
+        }
+        const focus = params.nodes[0];
+        const keep = neighbors(network, focus);
+        nodes.forEach(n => nodes.update({ id: n.id, opacity: keep.has(n.id) ? 1 : 0.25 }));
+        edges.forEach(e => {
+          const visible = keep.has(e.from) && keep.has(e.to);
+          edges.update({ id: e.id, color: { opacity: visible ? 0.7 : 0.15 } });
+        });
+      });
+
+      // Fit after stabilization
+      network.once("stabilizationIterationsDone", function () {
+        network.fit({ animation: true });
+      });
+    }).catch(err => {
+      document.getElementById('network').innerHTML = "Error loading data.json: " + err.message;
+    });
+  </script>
+</body>
+</html>
